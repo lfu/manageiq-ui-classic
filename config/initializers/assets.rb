@@ -3,4 +3,5 @@ Rails.application.config.assets.precompile += %w(
   remote_consoles/*.js
   webmks.css
   webmks.js
+  remote_console.js
 )

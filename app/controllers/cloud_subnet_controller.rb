@@ -54,7 +54,7 @@ class CloudSubnetController < ApplicationController
   def cloud_subnet_networks_by_ems
     assert_privileges("cloud_subnet_new")
     networks = []
-    available_networks = CloudNetwork.where(:ems_id => params[:id]).find_each
+    available_networks = Rbac.filtered(CloudNetwork.where(:ems_id => params[:id])).find_each
     available_networks.each do |network|
       networks << { 'name' => network.name, 'id' => network.ems_ref }
     end
@@ -67,7 +67,7 @@ class CloudSubnetController < ApplicationController
     assert_privileges("cloud_subnet_new")
     network_manager = ExtManagementSystem.find(params[:id])
     tenants = []
-    CloudTenant.where(:ems_id => network_manager.parent_ems_id).find_each do |tenant|
+    Rbac.filtered(CloudTenant.where(:ems_id => network_manager.parent_ems_id)).find_each do |tenant|
       tenants << { 'name' => tenant.name, 'id' => tenant.id.to_s }
     end
     render :json => {

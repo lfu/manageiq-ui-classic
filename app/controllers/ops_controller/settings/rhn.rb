@@ -259,6 +259,8 @@ module OpsController::Settings::RHN
   end
 
   def rhn_validate
+    assert_privileges("product_update_admin")
+
     rhn_load_session
     rhn_fire_available_organizations do |organizations|
       if @edit[:new][:register_to] == 'rhn_satellite6'
@@ -292,6 +294,8 @@ module OpsController::Settings::RHN
 
   # handle buttons in ops/settings/rh updates
   def rhn_buttons
+    assert_privileges("product_update_admin")
+
     @edit = session[:edit]
     rhn_gather_checks
     if params[:button] != 'refresh'
@@ -328,6 +332,8 @@ module OpsController::Settings::RHN
   end
 
   def edit_rhn
+    assert_privileges("product_update_admin")
+
     @sb[:active_tab] = 'settings_rhn_edit'
     self.x_active_tree = :settings_tree
     @in_a_form = true
